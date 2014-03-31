@@ -1,14 +1,18 @@
-App.PeopleController = Ember.ArrayController.extend({
+import Person from 'js/models/person';
+
+var PeopleController = Ember.ArrayController.extend({
     actions: {
         addPerson: function() {
             var person = {
                 firstName: this.get('firstName'),
                 lastName: this.get('lastName')
             };
-            App.Person.add(person);
+            Person.add(person);
         },
         deletePerson: function(person) {
-            App.Person.remove(person);
+            Person.remove(person);
         }
     }
 });
+
+export default PeopleController;

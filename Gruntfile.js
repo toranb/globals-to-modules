@@ -4,6 +4,20 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-ember-template-compiler');
 
   grunt.initConfig({
+    transpile: {
+      app: {
+        type: 'amd',
+        moduleName: function(path) {
+          return grunt.config.process('js/') + path;
+        },
+        files: [{
+          expand: true,
+          cwd: 'js/app/',
+          src: '**/*.js',
+          dest: 'js/dist/transpiled/app/'
+        }]
+      }
+    },
     concat: {
       dist: {
           src: [
@@ -12,7 +26,7 @@ module.exports = function(grunt) {
             'js/vendor/ember/ember.js',
             'vendor/loader.js',
             'vendor/ember-resolver.js',
-            'js/app/**/*.js',
+            'js/dist/transpiled/app/**/*.js',
             'js/dist/tmpl.min.js'],
           dest: 'js/dist/deps.min.js'
       }
@@ -31,5 +45,5 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.task.registerTask('local', ['emberhandlebars', 'concat:dist']);
+  grunt.task.registerTask('local', ['transpile:app', 'emberhandlebars', 'concat:dist']);
 }

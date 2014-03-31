@@ -1,4 +1,4 @@
-App.Person = Ember.Object.extend({
+var Person = Ember.Object.extend({
     firstName: '',
     lastName: '',
     fullName: function() {
@@ -8,10 +8,10 @@ App.Person = Ember.Object.extend({
     }.property('firstName', 'lastName')
 });
 
-App.Person.reopenClass({
+Person.reopenClass({
     people: [],
     add: function(hash) {
-        var person = App.Person.create(hash);
+        var person = Person.create(hash);
         this.people.pushObject(person);
     },
     remove: function(person) {
@@ -21,10 +21,12 @@ App.Person.reopenClass({
         var self = this;
         $.getJSON('/api/people', function(response) {
             response.forEach(function(hash) {
-                var person = App.Person.create(hash);
+                var person = Person.create(hash);
                 Ember.run(self.people, self.people.pushObject, person);
             });
         }, this);
         return this.people;
     }
 });
+
+export default Person;
